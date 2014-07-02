@@ -1,0 +1,125 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="index.css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<style>
+		.task1 {
+			background: yellow;
+		}
+	</style>
+	<script src="lib/vue.js"></script>
+	<title>StartPound</title>
+</head>
+
+<body>
+	<div id="demo" class="container">
+		<h1>簡易Node.jsアプリ作成支援サイト - StartPound</h1>
+		<p class="info">
+			Node.jsでアプリ作成するの、冗長で面倒ですね。
+			<br><a href="http://compoundjs.com/">Compoundjs</a>を使うとRailsみたいにScaffold出来ます。
+			<br>Scaffoldコマンドについて調べるの面倒ですね。
+			<br>このページでScaffoldコマンドを生成出来ます。便利ですね。
+			<br>
+			<img src="sakurei.png" alt="" class="image-responsive">
+			<br>こんな感じの管理画面を作れます。そのままアプリにも出来るかも。
+		</p>
+
+		<p>
+
+		</p>
+
+		<h2>まず、アプリ名を決めましょう。</h2>
+		アプリ名（英数字のみにしてください）：
+		<input type="text" class="form-control" v-model="collectionName">
+		<br>
+
+		<h2>次に、項目を追加しましょう。</h2>
+
+		<div class="member" v-repeat="item:member">
+			<p>
+				アイテム名（英数字のみにしてください）：
+				<input class="form-control" type="text" v-model="item.name">
+
+			</p>
+			<p>
+				種別：
+				<select class="form-control" v-model="item.type">
+					<option value="String">String - 文字列型</option>
+					<option value="Number">Number - 数値型</option>
+					<option value="Date">Date - 日付型</option>
+					<option value="Boolean">Boolean - ブーリアン</option>
+					<option value="Text">Text - テキスト型</option>
+				</select>
+				<button v-on="click:removeMember(this)">この項目を削除</button>
+			</p>
+		</div>
+		<button v-on="click:addMember()">新しい項目を追加</button>
+
+		<h2>下記手順でセットアップします。</h2>
+
+		<div id="result">
+			<h3>
+				【手順１】Compoundjsのセットアップ
+			</h3>
+			<pre>
+npm install compound -g
+compound init {{collectionName}}
+cd {{collectionName}}
+npm install
+</pre>
+			<h3>
+				【手順２】Scaffold
+			</h3>
+			<pre>{{output}}</pre>
+
+			<h3>
+				【手順３】起動
+			</h3>
+			<p>下記コマンドで起動します。</p>
+			<pre>node .</pre>
+			<p>その後、<a href="http://localhost:3000/{{collectionName}}s">http://localhost:3000/{{collectionName}}s</a>にアクセスすると管理画面が表示されます。
+
+			</p>
+
+			<p>
+				ちなみに<a href="http://localhost:3000/{{collectionName}}s.json">http://localhost:3000/{{collectionName}}s.json</a>にアクセスするとjsonが取れます。
+			</p>
+			<h3>
+				【手順４】（オプション）MongoDB追加
+			</h3>
+			<p>
+				上記手順までだと、コレクションはメモリ上に保存されていますので、nodeを終了したら全部消えてしまいます。
+				<BR>下記はMongoDBに保存する手順です。
+				<BR>MongoDBを立ち上げて、config/database.jsを下記のように書き換えます。
+			</p>
+
+			<pre>
+module.exports =    
+  { "development":   
+    { "driver":   "mongodb"    
+    , "url":      "mongodb://localhost/{{collectionName}}"   
+    }    
+  , "test":   
+    { "driver":   "mongodb"   
+    , "url":      "mongodb://localhost/{{collectionName}}"   
+    }   
+  , "production":   
+    { "driver":   "mongodb"   
+    , "url":      "mongodb://localhost/{{collectionName}}"   
+    }   
+  };
+</pre>
+
+			<p>これで、nodeを再起動してもコレクションが保持されます。</p>
+		</div>
+	</div>
+	<script src="index.js">
+	</script>
+
+</body>
+
+</html>

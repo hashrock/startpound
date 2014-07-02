@@ -1,0 +1,21 @@
+/* Write Here */
+
+p.info{
+	padding: 40px;
+	background: #EEE;
+}
+
+div.member {
+	padding: 18px;
+	background: #F7F1D4;
+	margin-top: 10px;
+}
+div#result {
+	margin-top: 20px;
+	padding: 40px;
+	background: rgb(226, 255, 230);
+}
+
+h2{
+	margin-top: 100px;
+}
